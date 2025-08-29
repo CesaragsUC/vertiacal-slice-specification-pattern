@@ -1,11 +1,11 @@
-﻿using Application.Infrastructure.Persistence.Contexts.ApplicationDbContext;
-using Application.Infrastructure.Persistence.Contexts.MTDbContext;
+﻿using Application.Abstractions.Data;
+using Infrastructure.Databases.ApplicationDbContext;
+using Infrastructure.Databases.MTDbContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace Application.Extensions;
+namespace Infrastructure.Extensions;
 
 public static class MigrationExtensions
 {

@@ -1,16 +1,17 @@
 using Application;
-using Application.Extensions;
+using Application.Abstractions.Data;
+using Infrastructure;
+using Infrastructure.Databases.ApplicationDbContext;
+using Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
-using Application.Features.MinimalApiDemo;
-using Microsoft.Extensions.Configuration;
-using Cortex.Mediator.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddControllers()
-    .AddApplicationPart(typeof(AssemblyReference).Assembly); // <-- importante. diz ao ASP.NET Core para procurar controllers (e outros artefatos MVC) em um outro assembly além do assembly da Web API
+    .AddControllers();
 
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -30,10 +31,11 @@ builder.Services.AddProblemDetails();
 builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+
 var app = builder.Build();
 
-await app.ApplyMigrationsAsync();
-
+app.ApplyMigrationsAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -52,9 +54,8 @@ else
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapControllers();
 
-app.MapMinimalApiDemoEndpoints();
+app.MapControllers();
 
 app.Run();
 
