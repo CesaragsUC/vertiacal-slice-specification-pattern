@@ -1,4 +1,6 @@
-# Vertical Slices Starter — EF Core (Write + Outbox) + PostgreSQL + RabbitMQ + Mongo (Read)
+# Vertical Slices — EF Core (Write + Outbox) + PostgreSQL + RabbitMQ + Mongo (Read)
 
-
-A basic show case, how to use a hybrid Slice pattern + Specification. Without Repository pattern, a straightforward project
+- A basic show case, how to use a hybrid Slice pattern + Specification. Without Repository pattern, a straightforward project
+- Fixture
+- TestContainer
+- Integratiopn Tests
