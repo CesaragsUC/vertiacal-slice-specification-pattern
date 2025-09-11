@@ -30,6 +30,9 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, ErrorO
         if (category is null)
             return Error.NotFound(description: $"Category with Id {req.CategoryId} not found");
 
+        if (IsNameAlreadyExists(req.Name))
+            return Error.Conflict(description: $"Product with name {req.Name} already exists");
+
         var spec = new ProductByIdSpec(req.Id);
         var entity = await _db.Products.FirstOrDefaultAsync(x => x.Id == req.Id, ct);
 
@@ -46,5 +49,7 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, ErrorO
 
         return entity.Id;
     }
+    private bool IsNameAlreadyExists(string name)
+    => _db.Products.Any(e => EF.Functions.ILike(e.Name, name));
 }
 
