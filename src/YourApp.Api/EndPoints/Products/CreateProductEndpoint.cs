@@ -1,4 +1,3 @@
-using Application.Product.Create;
 using Cortex.Mediator;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;

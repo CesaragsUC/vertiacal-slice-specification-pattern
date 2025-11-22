@@ -5,6 +5,7 @@ using Cortex.Mediator.Commands;
 using ErrorOr;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using ProductEntity = Domain.Products.Product;
 
 
@@ -41,6 +42,8 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, ErrorO
         await SendNotification(entity, category.Name);
 
         await _db.SaveChangesAsync(ct);
+
+        Log.Information("Product created with Id: {Id}", entity.Id);
 
         return entity.Id;
     }

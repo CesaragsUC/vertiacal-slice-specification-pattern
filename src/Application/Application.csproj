@@ -1,35 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cortex.Mediator" Version="1.7.0" />
-		<PackageReference Include="ErrorOr" Version="2.0.1" />
-		<PackageReference Include="FluentValidation" Version="12.0.0" />
-		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
-		<PackageReference Include="MassTransit" Version="8.5.2" />
-		<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.2" />
-		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.5.2" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-		<PackageReference Include="MongoDB.Driver" Version="3.4.2" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
-		<PackageReference Include="Scrutor" Version="6.1.0" />
+		<PackageReference Include="Cortex.Mediator" />
+		<PackageReference Include="ErrorOr"  />
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="FluentValidation.AspNetCore" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions"  />
+		<PackageReference Include="Microsoft.AspNetCore.Http"  />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore"  />
+		<PackageReference Include="MassTransit"  />
+		<PackageReference Include="MassTransit.RabbitMQ"  />
+		<PackageReference Include="MassTransit.EntityFrameworkCore"  />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+		<PackageReference Include="MongoDB.Driver" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions"  />
+		<PackageReference Include="Scrutor"  />
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.AspNetCore"/>
+		<PackageReference Include="Serilog.Sinks.Console"/>
+		<PackageReference Include="Serilog.Sinks.Seq"/>
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Product\Delete\ProductDeletedEventHandler.cs" />
+		<None Include="Product\Delete\ProductDeletedEventHandler.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Domain\Domain.csproj" />
+		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -3,9 +3,22 @@ using Application.Abstractions.Data;
 using Infrastructure;
 using Infrastructure.Databases.ApplicationDbContext;
 using Infrastructure.Extensions;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders(); // evita Console/Debug duplicados
+
+// Start Serilog configuration
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+Log.Logger = logger;
+
+builder.Host.UseSerilog(Log.Logger, dispose: true);
 
 builder.Services
     .AddControllers();

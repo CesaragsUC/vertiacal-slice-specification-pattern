@@ -26,9 +26,24 @@ services:
       MONGO_INITDB_DATABASE: admin
     volumes:
       - mongo_data:/data/db
-
+      
+  seq:
+    image: datalust/seq:2025.2
+    container_name: efspec-seq-log
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_NOAUTHENTICATION: True
+    restart: unless-stopped
+    volumes:
+      - seq_data:/data
+    
+    
 volumes:
   postgres_data:
     driver: local
   mongo_data:
     driver: local
+  seq_data:
+    driver: local    
