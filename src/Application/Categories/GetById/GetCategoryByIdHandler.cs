@@ -20,6 +20,6 @@ public sealed class GetCategoryByIdHandler : IQueryHandler<GetCategoryByIdQuery,
                 code: "Category.NotFound",
                 description: $"Category with Id '{req.Id}' was not found");
         }
-        return new CategoryResponse(category.Id, category.Name, category.IsActive);
+        return new CategoryResponse(category.Id, category.Name!, category.IsActive);
     }
 }

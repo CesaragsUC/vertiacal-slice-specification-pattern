@@ -1,8 +1,7 @@
-﻿namespace Infrastructure.Consumers;
-
-using Application.Infrastructure.Persistence.Contexts.ApplicationDbContext;
-using Infrastructure.Databases.ApplicationDbContext;
+﻿using Infrastructure.Databases.ApplicationDbContext;
 using MassTransit;
+
+namespace Infrastructure.Consumers;
 
 public sealed class ProductCreatedConsumerDefinition
     : ConsumerDefinition<ProductCreatedConsumer>

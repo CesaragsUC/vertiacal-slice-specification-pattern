@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
-
-namespace Application.Behaviours;
-
 using Application.Metrics;
 using Cortex.Mediator.Commands;
 using ErrorOr;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
+
+namespace Application.Behaviours;
 
 public sealed class ValidateCommandBehavior<TCommand, TResult>
     : ICommandPipelineBehavior<TCommand, TResult>
@@ -55,7 +53,7 @@ public sealed class ValidateCommandBehavior<TCommand, TResult>
                 ProductMetrics.ValidationErrors.WithLabels(typeof(TCommand).Name, error.Description,error.Code);
             }
 
-            return (TResult)(dynamic)failures;
+            return (TResult)(dynamic)failures!;
         }
 
         return await next();

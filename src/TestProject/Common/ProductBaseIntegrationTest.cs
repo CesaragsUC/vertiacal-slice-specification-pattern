@@ -19,7 +19,7 @@ public abstract class ProductBaseIntegrationTest : ErrorOrAssertions, IDisposabl
     // Direct access to shared data
     protected Guid ExistingCategoryId => Fixture.ExistingCategoryId;
     protected Guid ExistingProductId => Fixture.ExistingProductId;
-    protected string ExistingProductName => Fixture.ExistingProductName;
+    protected string? ExistingProductName => Fixture.ExistingProductName;
     protected Product? ProductCreated => Fixture.ProductCreated;
     protected Category? CategoryCreated => Fixture.CategoryCreated;
 

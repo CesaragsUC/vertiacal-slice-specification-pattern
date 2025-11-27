@@ -15,7 +15,7 @@ public sealed class ListCategoryHandler : IQueryHandler<GetCategoryListQuery, Er
     public async Task<ErrorOr<List<CategoryResponse>>> Handle(GetCategoryListQuery req, CancellationToken ct)
     {
         var categories = await _db.Categories
-            .Select(c => new CategoryResponse(c.Id, c.Name, c.IsActive))
+            .Select(c => new CategoryResponse(c.Id, c.Name!, c.IsActive))
             .AsNoTracking()
             .ToListAsync(ct);
         return categories;

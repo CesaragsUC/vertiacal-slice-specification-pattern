@@ -1,6 +1,7 @@
-﻿namespace YourApp.Api.Utils;
+﻿using Prometheus;
 
-using Prometheus;
+namespace YourApp.Api.Utils;
+
 
 /// <summary>
 /// Sample background service demonstrating how to publish metrics from background business logic.

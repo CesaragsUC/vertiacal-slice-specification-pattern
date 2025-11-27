@@ -1,0 +1,160 @@
+# .editorconfig
+root = true
+
+[*.cs]
+# Naming conventions
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.severity = error # Interfaces devem começar com "I"
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.symbols = interface # Aplica-se a interfaces
+dotnet_naming_rule.interfaces_should_be_prefixed_with_i.style = begins_with_i # Define o estilo de nomenclatura
+dotnet_naming_rule.private_fields_start_with_underscore.severity = warning # Campos privados devem começar com "_"
+
+# Configurações específicas para arquivos de configuração e dados
+[*.{json,yml,yaml,xml,config,props,targets,csproj,sln}]
+indent_size = 2
+
+# Configurações específicas para scripts shell
+[*.sh]
+end_of_line = lf # Scripts shell usam LF. Se tiver CRLF, vai dar erro no Linux
+
+# Em Markdown, 2 espaços no final da linha criam uma quebra de linha:
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 120
+
+# ============================================================
+# Configurações Gerais para Todos os Arquivos
+# ============================================================
+[*]
+charset = utf-8 # Define a codificação de caracteres como UTF-8. ex: Sem UTF-8 (usando ANSI/Latin1): string nome = "José"; // Pode aparecer como "JosÃ©". Suporte a emojis - Suporte a acentuação (português, espanhol, etc)
+indent_style = space
+indent_size = 4
+insert_final_newline = true #Garante que todo arquivo termine com uma linha em branco no final.
+trim_trailing_whitespace = true # Remove espaços em branco no final das linhas.
+end_of_line = lf # Define o tipo de quebra de linha como LF (Unix/Linux/Mac). Windows -> CRLF. Unix/Linux/Mac -> LF. Git recomenda .Docker/Linux containers usam LF.CI/CD (Azure DevOps, GitHub Actions) rodam em Linux
+
+# Code style
+csharp_prefer_braces = true:suggestion   # Força o uso de chaves {} em todas as estruturas de controle (if, for, while, etc), mesmo quando são de uma linha.
+#csharp_prefer_braces = true:none        # Não mostra nada
+#csharp_prefer_braces = true:suggestion  # Sugestão no IDE (linha pontilhada)
+#csharp_prefer_braces = true:warning     # Warning (linha ondulada amarela)
+#csharp_prefer_braces = true:error       # Erro (linha ondulada vermelha)
+
+csharp_using_directive_placement = outside_namespace:warning # Define onde os using statements devem ficar: fora ou dentro do namespace.
+
+# Preferir pattern matching
+csharp_style_pattern_matching_over_as_with_null_check = true:warning
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+csharp_style_prefer_extended_property_pattern = true:suggestion
+
+# Indentation
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents_when_block = false
+
+# New lines
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Spacing
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_dot = false
+csharp_space_before_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_around_declaration_statements = false
+csharp_space_before_open_square_brackets = false
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_square_brackets = false
+
+# Tipos (classes, structs, enums, delegates) devem ser PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.severity = error
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum, delegate
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Campos privados devem começar com _
+dotnet_naming_rule.private_fields_should_be_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_underscore.style = underscore_prefix
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.underscore_prefix.required_prefix = _
+dotnet_naming_style.underscore_prefix.capitalization = camel_case
+
+# Campos privados static readonly devem ser PascalCase
+dotnet_naming_rule.private_static_readonly_should_be_pascal_case.severity = warning
+dotnet_naming_rule.private_static_readonly_should_be_pascal_case.symbols = private_static_readonly
+dotnet_naming_rule.private_static_readonly_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.private_static_readonly.applicable_kinds = field
+dotnet_naming_symbols.private_static_readonly.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_readonly.required_modifiers = static, readonly
+
+# Constantes devem ser PascalCase
+dotnet_naming_rule.constants_should_be_pascal_case.severity = warning
+dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
+dotnet_naming_rule.constants_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.applicable_accessibilities = *
+dotnet_naming_symbols.constants.required_modifiers = const
+
+# Campos públicos/internos devem ser PascalCase
+dotnet_naming_rule.public_fields_should_be_pascal_case.severity = warning
+dotnet_naming_rule.public_fields_should_be_pascal_case.symbols = public_fields
+dotnet_naming_rule.public_fields_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.public_fields.applicable_kinds = field
+dotnet_naming_symbols.public_fields.applicable_accessibilities = public, internal
+
+# Properties, Methods, Events devem ser PascalCase
+dotnet_naming_rule.members_should_be_pascal_case.severity = error
+dotnet_naming_rule.members_should_be_pascal_case.symbols = members
+dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case
+dotnet_naming_symbols.members.applicable_kinds = property, method, event
+dotnet_naming_symbols.members.applicable_accessibilities = *
+
+# Parâmetros e variáveis locais devem ser camelCase
+dotnet_naming_rule.parameters_should_be_camel_case.severity = warning
+dotnet_naming_rule.parameters_should_be_camel_case.symbols = parameters
+dotnet_naming_rule.parameters_should_be_camel_case.style = camel_case
+dotnet_naming_symbols.parameters.applicable_kinds = parameter, local
+dotnet_naming_symbols.parameters.applicable_accessibilities = *
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# Métodos async devem terminar com Async
+dotnet_naming_rule.async_methods_end_in_async.severity = warning
+dotnet_naming_rule.async_methods_end_in_async.symbols = async_methods
+dotnet_naming_rule.async_methods_end_in_async.style = end_in_async
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.applicable_accessibilities = *
+dotnet_naming_symbols.async_methods.required_modifiers = async
+dotnet_naming_style.end_in_async.required_suffix = Async
+dotnet_naming_style.end_in_async.capitalization = pascal_case
+
+# Modern C# features
+csharp_prefer_simple_using_statement = true:suggestion # Prefere o uso de using declarations (C# 8+) em vez de using statements tradicionais.
+csharp_style_var_when_type_is_apparent = true:suggestion # Prefere var quando o tipo é óbvio do lado direito da atribuição.

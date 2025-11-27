@@ -1,6 +1,8 @@
-﻿namespace Application.Infrastructure.RabbitMqSetup.Registrations;
+﻿
 
 using MassTransit;
+
+namespace Application.Infrastructure.RabbitMqSetup.Registrations;
 
 public record RegistrationSubmitted(Guid RegistrationId, string Email);
 public record RegistrationAccepted(Guid RegistrationId);

@@ -50,15 +50,15 @@ public class CreateProductHandler : ICommandHandler<CreateProductCommand, ErrorO
             var entity = new ProductEntity(req.Name, req.Price, req.isActive, req.CategoryId, category);
             await _db.Products.AddAsync(entity, ct);
 
-            await MessageBus(entity, category.Name);
-            await SendNotification(entity, category.Name);
+            await MessageBus(entity, category.Name!);
+            await SendNotification(entity, category.Name!);
             await _db.SaveChangesAsync(ct);
 
             ProductMetrics.ProductsCreated.WithLabels("product_created_successfully").Inc();
 
             if (entity.IsActive)
             {
-                ProductMetrics.ActiveProducts.WithLabels(category.Name).Inc();
+                ProductMetrics.ActiveProducts.WithLabels(category.Name!).Inc();
             }
 
             Log.Information("Product created with Id: {Id}", entity.Id);

@@ -10,7 +10,7 @@ public sealed class Product : BaseEntity
     public decimal Price { get; private set; }
     public bool IsActive { get; private set; }
     private Product() { }
-    public Product(string name, decimal price, bool isActive, Guid categoryId, Category category)
+    public Product(string name, decimal price, bool isActive, Guid categoryId, Category? category)
     {
         Name = name;
         Price = price;
@@ -23,7 +23,7 @@ public sealed class Product : BaseEntity
     public void Reprice(decimal price) => Price = price;
 
     public Guid CategoryId { get; set; }
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 
     public void Update(string name, decimal price, bool isActive, Guid categoryId)
     {

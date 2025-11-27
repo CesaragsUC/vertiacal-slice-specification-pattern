@@ -22,7 +22,7 @@ public class UpdateProductHandlerTest : ProductBaseIntegrationTest
         //TODO: use a real product saved in testecontainer postgress
 
         var product = DbContext.Products.FirstOrDefault();
-        var command = new UpdateProductCommand(product.Id, "Xbox Series X", 200m, product.IsActive, product.CategoryId);
+        var command = new UpdateProductCommand(product!.Id, "Xbox Series X", 200m, product.IsActive, product.CategoryId);
 
         var result = await Sender.SendCommandAsync<UpdateProductCommand, ErrorOr<Guid>>(command);
 
@@ -83,9 +83,9 @@ public class UpdateProductHandlerTest : ProductBaseIntegrationTest
         //TODO: get the a product from testecontainer postgress with different name from existentProduct
         var product = await DbContext.Products.FirstOrDefaultAsync(p => !EF.Functions.ILike(p.Name, existentProduct.Name));
 
-        product.Update(existentProduct.Name, 200.0m, false, product.CategoryId);
+        product?.Update(existentProduct.Name, 200.0m, false, product.CategoryId);
 
-        var command = new UpdateProductCommand(product.Id, product.Name, product.Price, product.IsActive, product.CategoryId);
+        var command = new UpdateProductCommand(product!.Id, product.Name, product.Price, product.IsActive, product.CategoryId);
 
         var result = await Sender.SendCommandAsync<UpdateProductCommand, ErrorOr<Guid>>(command);
 

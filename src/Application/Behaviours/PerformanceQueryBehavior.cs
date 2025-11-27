@@ -1,10 +1,12 @@
-﻿namespace Application.Behaviours;
+﻿
 
 using Application.Abstractions;
 using Application.Metrics;
 using Cortex.Mediator.Queries;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+
+namespace Application.Behaviours;
 
 public sealed class PerformanceQueryBehavior<TQuery, TResponse>
     : IQueryPipelineBehavior<TQuery, TResponse>

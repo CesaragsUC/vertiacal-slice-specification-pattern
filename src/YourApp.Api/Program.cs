@@ -54,7 +54,7 @@ builder.Services.AddPrometheusConfiguration();
 var app = builder.Build();
 
 
-app.ApplyMigrationsAsync();
+await  app.ApplyMigrationsAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();

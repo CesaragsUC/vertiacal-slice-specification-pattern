@@ -1,5 +1,4 @@
-﻿using Application.Abstractions.Data;
-using Infrastructure.Databases.ApplicationDbContext;
+﻿using Infrastructure.Databases.ApplicationDbContext;
 using Infrastructure.Databases.MTDbContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;

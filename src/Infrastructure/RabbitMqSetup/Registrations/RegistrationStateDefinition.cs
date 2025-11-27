@@ -1,7 +1,9 @@
-﻿namespace Application.Infrastructure.RabbitMqSetup.Registrations;
+﻿
 
 using global::Infrastructure.Databases.ApplicationDbContext;
 using MassTransit;
+
+namespace Application.Infrastructure.RabbitMqSetup.Registrations;
 
 public class RegistrationStateDefinition :
     SagaDefinition<RegistrationState>

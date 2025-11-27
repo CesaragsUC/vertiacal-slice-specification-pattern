@@ -1,7 +1,10 @@
-﻿namespace Application.Infrastructure.RabbitMqSetup;
+﻿
 
 using global::Infrastructure.Databases.ApplicationDbContext;
 using MassTransit;
+
+namespace Application.Infrastructure.RabbitMqSetup;
+
 
 public sealed class GlobalConsumerDefinition<TEntity>: 
     ConsumerDefinition<TEntity> where TEntity : class, IConsumer

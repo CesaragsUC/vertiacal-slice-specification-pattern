@@ -1,0 +1,41 @@
+<Project>
+	<PropertyGroup>
+		<!-- Language & Framework -->
+		<LangVersion>12</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<Nullable>enable</Nullable>
+
+		<!-- Quality & Warnings -->
+		<!--Transforma todos os warnings em erros de compilação.-->
+		<!--Se True, qualquer warning/style violation → CI/CD Pipeline FALHA-->
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<!--Define o nível de sensibilidade dos warnings. Quanto maior, mais warnings você recebe. 5 é valor maximo-->
+		<WarningLevel>5</WarningLevel>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+		<!-- Build Configuration -->
+		<!--Remove caminhos absolutos dos PDBs (símbolos de debug)-->
+		<!--Garante builds determinísticos (mesmo código = mesmo binário)-->
+		<!--Melhora a segurança (não vaza caminhos do servidor de build)-->
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+		<!-- Assembly Info -->
+		<Company>Casoft</Company>
+		<Product>$(MSBuildProjectName)</Product>
+		<Copyright>Copyright © Casoft $([System.DateTime]::Now.Year)</Copyright>
+
+		<!-- Documentation -->
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!-- Ignorar warning especificos -->
+		<NoWarn>$(NoWarn);CS1591;CS0114</NoWarn>
+	</PropertyGroup>
+
+	<!-- Conditional settings for Test projects -->
+	<PropertyGroup Condition="$(MSBuildProjectName.Contains('.Tests'))">
+		<!--O que faz: Impede que o projeto seja empacotado como NuGet package.-->
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
+	</PropertyGroup>
+</Project>

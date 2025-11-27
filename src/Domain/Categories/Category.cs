@@ -16,7 +16,7 @@ public class Category : BaseEntity
         Name = name;
         IsActive = isActive;
     }
-    public string Name { get; private set; }
+    public string? Name { get; private set; }
     public bool IsActive { get; private set; } = true;
 
     public void Deactivate()

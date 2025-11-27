@@ -57,7 +57,7 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, ErrorO
             entity.Update(req.Name, req.Price, req.isActive, req.CategoryId);
             _db.Products.Update(entity);
 
-            await _publish.Publish(new ProductUpdatedEvent(entity.Id, entity.Name, entity.Price, entity.IsActive, entity.CategoryId, category.Name), ct);
+            await _publish.Publish(new ProductUpdatedEvent(entity.Id, entity.Name, entity.Price, entity.IsActive, entity.CategoryId, category.Name!), ct);
 
 
             await _db.SaveChangesAsync(ct);

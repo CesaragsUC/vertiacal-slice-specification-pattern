@@ -165,7 +165,7 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
         RemoveOriginalRabbitMqConfiguration(services);
 
         // Re-add MassTransit with test container configuration
-        services.AddMessageBroker(_configuration);
+        services.AddMessageBroker(_configuration!);
 
     }
 

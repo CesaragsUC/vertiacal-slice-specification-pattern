@@ -1,10 +1,10 @@
-﻿namespace Application.Behaviours;
-
-using Application.Metrics;
+﻿using Application.Metrics;
 using Cortex.Mediator.Queries;
 using ErrorOr;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+
+namespace Application.Behaviours;
 
 public sealed class ValidateQueryBehavior<TQuery, TResult>
    : IQueryPipelineBehavior<TQuery, TResult>
@@ -46,7 +46,7 @@ public sealed class ValidateQueryBehavior<TQuery, TResult>
                 ProductMetrics.ValidationErrors.WithLabels(typeof(TQuery).Name, error.Description, error.Code);
             }
 
-            return (TResult)(dynamic)failures; // converte IEnumerable<Error> -> ErrorOr<T>
+            return (TResult)(dynamic)failures!; // converte IEnumerable<Error> -> ErrorOr<T>
         }
 
         return await next();

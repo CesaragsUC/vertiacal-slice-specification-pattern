@@ -11,13 +11,13 @@ namespace TestProject.Common;
 
 public class ProductIntegrationTestFixture : IAsyncLifetime
 {
-    private ApiFactory _factory;
+    private ApiFactory? _factory;
     private readonly Dictionary<string, object> _sharedData = new();
 
-    public ApiFactory Factory => _factory;
+    public ApiFactory Factory => _factory!;
     public Guid ExistingCategoryId { get; private set; }
     public Guid ExistingProductId { get; private set; }
-    public string ExistingProductName { get; private set; }
+    public string? ExistingProductName { get; private set; }
 
     public Product? ProductCreated { get; private set; }
     public Category? CategoryCreated { get; private set; }
@@ -33,13 +33,13 @@ public class ProductIntegrationTestFixture : IAsyncLifetime
 
     private async Task InitializeTestData()
     {
-        using var scope = _factory.Services.CreateScope();
-        var sender = scope.ServiceProvider.GetRequiredService<IMediator>();
-        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        using var scope = _factory?.Services.CreateScope();
+        var sender = scope?.ServiceProvider.GetRequiredService<IMediator>();
+        var dbContext = scope?.ServiceProvider.GetRequiredService<AppDbContext>();
 
         // Create a category that all tests can use
         var categoryCommand = new CreateCategoryCommand("Electronics");
-        var categoryResult = await sender.SendCommandAsync<CreateCategoryCommand, ErrorOr<Guid>>(categoryCommand);
+        var categoryResult = await sender!.SendCommandAsync<CreateCategoryCommand, ErrorOr<Guid>>(categoryCommand);
         if (!categoryResult.IsError)
         {
             ExistingCategoryId = categoryResult.Value;
@@ -66,7 +66,7 @@ public class ProductIntegrationTestFixture : IAsyncLifetime
         ExistingProductName = ProductCreated?.Name!;
 
         // add more initialization here
-        await SeedAdditionalData(sender, dbContext);
+        await SeedAdditionalData(sender, dbContext!);
     }
 
     private async Task SeedAdditionalData(IMediator sender, AppDbContext dbContext)
@@ -84,7 +84,7 @@ public class ProductIntegrationTestFixture : IAsyncLifetime
     {
         if (_sharedData.TryGetValue(key, out var value))
             return (T)value;
-        return default(T);
+        return default(T)!;
     }
 
     public async Task DisposeAsync()
