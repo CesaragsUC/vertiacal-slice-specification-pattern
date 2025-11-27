@@ -4,10 +4,17 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>0515a9b3-9079-4586-a053-d900e0bd8eb3</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Bogus" />
 		<PackageReference Include="Cortex.Mediator" />
+		<PackageReference Include="MassTransit" />
+		<PackageReference Include="MassTransit.EntityFrameworkCore" />
+		<PackageReference Include="MassTransit.RabbitMQ" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 			<PrivateAssets>all</PrivateAssets>
@@ -17,15 +24,19 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Serilog"  />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="prometheus-net" />
+		<PackageReference Include="prometheus-net.AspNetCore" />
+		<PackageReference Include="prometheus-net.AspNetCore.HealthChecks" />
+		<PackageReference Include="Serilog" />
 		<PackageReference Include="Serilog.AspNetCore" />
-		<PackageReference Include="Serilog.Sinks.Console"/>
-		<PackageReference Include="Serilog.Sinks.Seq"  />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Serilog.Sinks.Seq" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Swagger"  />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI"  />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
 
 	</ItemGroup>
 

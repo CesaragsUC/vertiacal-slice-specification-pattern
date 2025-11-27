@@ -1,5 +1,32 @@
 
 services:
+
+  my-api:
+    container_name: efspec-api
+    image: casoftlabs/efspec-api:v1.0.0
+    build:
+        context: .
+        dockerfile: ./src/YourApp.Api/Dockerfile    
+    ports:
+       - 5169:5169
+    depends_on:
+      - postgres
+      - rabbitmq
+      - mongodb
+    environment:  
+      - ASPNETCORE_ENVIRONMENT=Development 
+      - ASPNETCORE_URLS=http://*:5169
+      - CONNECTIONSTRINGS__POSTGRES=Host=postgres;Port=5432;Database=efspecDb;Username=postgres;Password=postgres
+      - CONNECTIONSTRINGS__MONGO=mongodb://cesar:cesar@mongodb:27017/?authSource=admin&authMechanism=SCRAM-SHA-256
+      - MONGO__DATABASE=efspecDb
+      - RABBIT__HOST=rabbitmq
+      - RABBIT__VHOST=/
+      - RABBIT__PORT=5672
+      - RABBIT__USER=guest
+      - RABBIT__PASS=guest
+      - WRITETO__1__ARGS__SERVERURL=http://seq:80
+    restart: always   
+
   postgres:
     container_name: efspec-postgres
     image: postgres:16-alpine
@@ -15,8 +42,9 @@ services:
     container_name: efspec-rabbitmq
     image: rabbitmq:3-management
     ports: ["5672:5672","15672:15672"]
+    restart: unless-stopped
 
-  mongo:
+  mongodb:
     container_name: efspec-mongo
     image: mongo:8.0.12
     ports: ["27017:27017"]
@@ -38,6 +66,18 @@ services:
     restart: unless-stopped
     volumes:
       - seq_data:/data
+      
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: efspec-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--enable-feature=exemplar-storage'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
     
     
 volumes:
@@ -47,3 +87,13 @@ volumes:
     driver: local
   seq_data:
     driver: local    
+  prometheus_data:
+    driver: local
+
+# docker-compose build --no-cache (Build de tudo sem cache)
+# docker-compose build my-api    (projeto especifico)
+# docker-compose build (build todos projetos)  
+# docker-compose up --build (força rebuild + sobe)
+# docker compose --project-name efspec up -d
+# docker compose --project-name efspec up --build -d   
+#ex: docker build -t casoftlabs/efspec-api:v1.0.0 -f YourApp.Api/Dockerfile .

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11206.111 d18.3
+VisualStudioVersion = 18.3.11206.111
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SoluctionItens", "SoluctionItens", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
 		ProductPayload.txt = ProductPayload.txt
+		PromQL queries.txt = PromQL queries.txt
 		Readme.txt = Readme.txt
+		C:\Users\cesar\Downloads\sobre-counter-gauge-histogram.png = C:\Users\cesar\Downloads\sobre-counter-gauge-histogram.png
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YourApp.Api", "src\YourApp.Api\YourApp.Api.csproj", "{E87826A8-4736-4283-A2A9-7B69FD3743CF}"

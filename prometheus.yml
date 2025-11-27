@@ -1,0 +1,6 @@
+scrape_configs:
+  - job_name: 'prometheus-net'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:5169'] # HTTP. para quando nao esta rodando via visual studio e nao via docker.
+      - targets: ['my-api:5169'] # HTTP, quando app estiver rodando em docker.

@@ -3,8 +3,11 @@ using Application.Abstractions.Data;
 using Infrastructure;
 using Infrastructure.Databases.ApplicationDbContext;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.OpenApi;
+using Prometheus;
 using Serilog;
+using YourApp.Api.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +49,10 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
+builder.Services.AddPrometheusConfiguration();
+
 var app = builder.Build();
+
 
 app.ApplyMigrationsAsync();
 
@@ -69,6 +75,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.HealthCheckSetup();
+app.MapMetrics();// Capture metrics about all received HTTP requests.
 
 app.Run();
 

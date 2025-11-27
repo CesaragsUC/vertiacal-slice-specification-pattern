@@ -1,6 +1,7 @@
 ﻿namespace Application.Behaviours;
 
 using Application.Abstractions;
+using Application.Metrics;
 using Cortex.Mediator.Commands;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -43,6 +44,10 @@ public sealed class PerformanceCommandBehavior<TCommand, TResponse>
             _logger.LogWarning(
                 "Cortex Slow Command: {Name} ({Elapsed} ms) {UserId} {@Command}",
                 name, elapsed, userId, command);
+
+            GlobalMetrics.CommandDuration
+                .WithLabels(name, "slow_command")
+                .Observe(_timer.Elapsed.ToSeconds());
         }
 
         return response;

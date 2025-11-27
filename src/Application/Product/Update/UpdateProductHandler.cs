@@ -1,11 +1,13 @@
 using Application.Abstractions.Data;
 using Application.Domain.Events.Products;
+using Application.Metrics;
 using Application.Product.Specifications;
 using Cortex.Mediator;
 using Cortex.Mediator.Commands;
 using ErrorOr;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Prometheus;
 
 namespace Application.Product.Update;
 
@@ -26,28 +28,46 @@ public class UpdateProductHandler : ICommandHandler<UpdateProductCommand, ErrorO
 
     public async Task<ErrorOr<Guid>> Handle(UpdateProductCommand req, CancellationToken ct)
     {
-        var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == req.CategoryId);
-        if (category is null)
-            return Error.NotFound(description: $"Category with Id {req.CategoryId} not found");
+        using (ProductMetrics.ProcessDuration.NewTimer())
+        {
+            var category = await _db.Categories.FirstOrDefaultAsync(x => x.Id == req.CategoryId);
 
-        if (IsNameAlreadyExists(req.Name))
-            return Error.Conflict(description: $"Product with name {req.Name} already exists");
+            if (category is null)
+            {
+                ProductMetrics.ValidationErrors.WithLabels("product_update", "category_not_found").Inc();
+                return Error.NotFound($"Category with Id {req.CategoryId} not found");
+            }
 
-        var spec = new ProductByIdSpec(req.Id);
-        var entity = await _db.Products.FirstOrDefaultAsync(x => x.Id == req.Id, ct);
+            if (IsNameAlreadyExists(req.Name))
+            {
+                ProductMetrics.ValidationErrors.WithLabels("product_update", "duplicate_name").Inc();
+                return Error.Conflict($"Product with name {req.Name} already exists");
+            }
 
-        if (entity is null)
-            return Error.NotFound(description: $"Product with Id {req.Id} not found");
+            var spec = new ProductByIdSpec(req.Id);
+            var entity = await _db.Products.FirstOrDefaultAsync(x => x.Id == req.Id, ct);
 
-        entity.Update(req.Name, req.Price, req.isActive, req.CategoryId);
-        _db.Products.Update(entity);
+            if (entity is null)
+            {
+                ProductMetrics.ProductNotFound.WithLabels("product_not_found").Inc();
+                return Error.NotFound(description: $"Product with Id {req.Id} not found");
+            }
 
-        await _publish.Publish(new ProductUpdatedEvent(entity.Id, entity.Name, entity.Price, entity.IsActive, entity.CategoryId, category.Name), ct);
+
+            entity.Update(req.Name, req.Price, req.isActive, req.CategoryId);
+            _db.Products.Update(entity);
+
+            await _publish.Publish(new ProductUpdatedEvent(entity.Id, entity.Name, entity.Price, entity.IsActive, entity.CategoryId, category.Name), ct);
 
 
-        await _db.SaveChangesAsync(ct);
+            await _db.SaveChangesAsync(ct);
 
-        return entity.Id;
+            ProductMetrics.ProductsUpdated.WithLabels("product_updated_successfully").Inc();
+
+            return entity.Id;
+        }
+
+
     }
     private bool IsNameAlreadyExists(string name)
     => _db.Products.Any(e => EF.Functions.ILike(e.Name, name));

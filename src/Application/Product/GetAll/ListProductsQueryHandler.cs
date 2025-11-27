@@ -1,8 +1,10 @@
+using Application.Metrics;
 using Application.Product.Response;
 using Application.Product.Specifications;
 using Cortex.Mediator.Queries;
 using ErrorOr;
 using MongoDB.Driver;
+using Prometheus;
 
 namespace Application.Product.GetAll;
 
@@ -16,14 +18,18 @@ public class ListProductsQueryHandler : IQueryHandler<GetProductsQuery, ErrorOr<
 
     public async Task<ErrorOr<IEnumerable<ProductResponse>>> Handle(GetProductsQuery req, CancellationToken ct = default)
     {
-        var spec = new ProductsGetlAllReadSpec(req.Category!);
+        using (GlobalMetrics.DbQueryDuration.WithLabels("get_all_products_query").NewTimer())
+        {
+            var spec = new ProductsGetlAllReadSpec(req.Category!);
 
-        var find = _col.Find(spec.Filter);
-        if (spec.Sort is not null) find = find.Sort(spec.Sort);
-        if (spec.Skip.HasValue) find = find.Skip(spec.Skip.Value);
-        if (spec.Take.HasValue) find = find.Limit(spec.Take.Value);
+            var find = _col.Find(spec.Filter);
+            if (spec.Sort is not null) find = find.Sort(spec.Sort);
+            if (spec.Skip.HasValue) find = find.Skip(spec.Skip.Value);
+            if (spec.Take.HasValue) find = find.Limit(spec.Take.Value);
 
-        return await find.Project(x => new ProductResponse(x.Id, x.Name, x.Category, x.CategoryId, x.Price))
-                         .ToListAsync(ct);
+            return await find.Project(x => new ProductResponse(x.Id, x.Name, x.Category, x.CategoryId, x.Price))
+                             .ToListAsync(ct);
+        }
+
     }
 }

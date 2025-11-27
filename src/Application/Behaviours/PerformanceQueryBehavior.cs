@@ -1,6 +1,7 @@
 ﻿namespace Application.Behaviours;
 
 using Application.Abstractions;
+using Application.Metrics;
 using Cortex.Mediator.Queries;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -43,6 +44,10 @@ public sealed class PerformanceQueryBehavior<TQuery, TResponse>
             _logger.LogWarning(
                 "Cortex Slow Query: {Name} ({Elapsed} ms) {UserId} {@Query}",
                 name, elapsed, userId, query);
+
+            GlobalMetrics.QueryDuration
+                .WithLabels(name, "slow_query")
+                .Observe(_timer.Elapsed.ToSeconds());
         }
 
         return response;

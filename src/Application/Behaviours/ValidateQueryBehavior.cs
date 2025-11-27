@@ -1,5 +1,6 @@
 ﻿namespace Application.Behaviours;
 
+using Application.Metrics;
 using Cortex.Mediator.Queries;
 using ErrorOr;
 using FluentValidation;
@@ -39,6 +40,11 @@ public sealed class ValidateQueryBehavior<TQuery, TResult>
         {
             _logger.LogWarning("Validation failed for query {QueryType} with errors: {Errors}",
                 typeof(TQuery).Name, string.Join(", ", failures.Select(e => e.Description)));
+
+            foreach (var error in failures?.ToList() ?? [])
+            {
+                ProductMetrics.ValidationErrors.WithLabels(typeof(TQuery).Name, error.Description, error.Code);
+            }
 
             return (TResult)(dynamic)failures; // converte IEnumerable<Error> -> ErrorOr<T>
         }

@@ -2,6 +2,7 @@
 
 namespace Application.Behaviours;
 
+using Application.Metrics;
 using Cortex.Mediator.Commands;
 using ErrorOr;
 using FluentValidation;
@@ -48,6 +49,11 @@ public sealed class ValidateCommandBehavior<TCommand, TResult>
             // O cast via dynamic deixa o runtime escolher T correto (o T de TResult).
             _logger.LogWarning("Validation failed for command {CommandType} with errors: {Errors}",
                 typeof(TCommand).Name, string.Join(", ", failures.Select(e => e.Description)));
+
+            foreach (var error in failures?.ToList() ?? [])
+            {
+                ProductMetrics.ValidationErrors.WithLabels(typeof(TCommand).Name, error.Description,error.Code);
+            }
 
             return (TResult)(dynamic)failures;
         }
